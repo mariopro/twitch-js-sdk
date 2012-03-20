@@ -1,0 +1,80 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>TwitchTV SDK Example App</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+  <script src="https://raw.github.com/Hebo/twitch-sdk/master/twitch.js?login=Hebo&token=cedd499f33d7080fa720e65f767e635d"></script>
+
+  <script>
+    window.CLIENT_ID = '4ea49phb73jeffd1d5mslv02e';
+    $(function() {
+      // Initialize. If we are already logged in, there is no
+      // need for the connect button
+      Twitch.init({clientId: CLIENT_ID}, function(error) {
+        var status = Twitch.getStatus();
+
+        if (status.authenticated) {
+          // we're logged in :)
+          $('.status input').val('Logged in! Allowed scope: ' + status.scope)
+          // Show the data for logged-in users
+          $('.authenticated').removeClass('hidden')
+        } else {
+          $('.status input').val('Not Logged in! Better connect with Twitch!')
+          // Show the twitch connect button
+          $('.authenticate').removeClass('hidden')
+        }
+      });
+
+
+      $('.twitch-connect').click(function() {
+        Twitch.login({
+          scope: ['user_read', 'channel_read']
+        });
+      })
+
+      $('#get-name button').click(function() {
+        Twitch.request({method: 'user'}, function(error, user) {
+          $('#get-name input').val(user.display_name)
+        });
+      })
+
+      $('#get-stream-key button').click(function() {
+        Twitch.request({method: 'channel'}, function(error, channel) {
+          $('#get-stream-key input').val(channel.stream_key)
+        });
+      })
+
+    });
+  </script>
+
+  <style type="text/css">
+  .hidden {
+    display: none;
+  }
+  </style>
+</head>
+<body>
+  <h1>TwitchTV SDK Example App</h1>
+    <div class="status">
+      Status: <input readonly="readonly" size="60" val="Unknown"/>
+    </div>
+    <div class="authenticate hidden">
+      <img src="http://ttv-api.s3.amazonaws.com/twitch_connect.png" class="twitch-connect" href="#" />
+    </div>
+
+    <h2 class="authenticated hidden">Authenticated</h2>
+    <div class="authenticated hidden">
+      <div id="get-name">
+        <button>Get TwitchTV Name</button>
+        <input readonly="readonly" size="50" value="Unknown"/>
+      </div>
+
+      <div id="get-stream-key">
+        <button>Get TwitchTV Stream Key</button>
+        <input readonly="readonly" size="50" value="Unknown"/>
+      </div>
+
+    </div>
+</body>
+</html>
