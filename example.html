@@ -12,18 +12,18 @@
       // Initialize. If we are already logged in, there is no
       // need for the connect button
       Twitch.init({clientId: CLIENT_ID}, function(error) {
-        var status = Twitch.getStatus();
-
-        if (status.authenticated) {
-          // we're logged in :)
-          $('.status input').val('Logged in! Allowed scope: ' + status.scope)
-          // Show the data for logged-in users
-          $('.authenticated').removeClass('hidden')
-        } else {
-          $('.status input').val('Not Logged in! Better connect with Twitch!')
-          // Show the twitch connect button
-          $('.authenticate').removeClass('hidden')
-        }
+        Twitch.getStatus(function(error, status) {
+          if (status.authenticated) {
+            // we're logged in :)
+            $('.status input').val('Logged in! Allowed scope: ' + status.scope);
+            // Show the data for logged-in users
+            $('.authenticated').removeClass('hidden');
+          } else {
+            $('.status input').val('Not Logged in! Better connect with Twitch!');
+            // Show the twitch connect button
+            $('.authenticate').removeClass('hidden');
+          }
+        });
       });
 
 
@@ -35,13 +35,13 @@
 
       $('#get-name button').click(function() {
         Twitch.request({method: 'user'}, function(error, user) {
-          $('#get-name input').val(user.display_name)
+          $('#get-name input').val(user.display_name);
         });
       })
 
       $('#get-stream-key button').click(function() {
         Twitch.request({method: 'channel'}, function(error, channel) {
-          $('#get-stream-key input').val(channel.stream_key)
+          $('#get-stream-key input').val(channel.stream_key);
         });
       })
 
