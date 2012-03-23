@@ -34,13 +34,13 @@
       })
 
       $('#get-name button').click(function() {
-        Twitch.request({method: 'user'}, function(error, user) {
+        Twitch.api({method: 'user'}, function(error, user) {
           $('#get-name input').val(user.display_name);
         });
       })
 
       $('#get-stream-key button').click(function() {
-        Twitch.request({method: 'channel'}, function(error, channel) {
+        Twitch.api({method: 'channel'}, function(error, channel) {
           $('#get-stream-key input').val(channel.stream_key);
         });
       })
