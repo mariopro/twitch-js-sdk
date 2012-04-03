@@ -11,19 +11,17 @@
     $(function() {
       // Initialize. If we are already logged in, there is no
       // need for the connect button
-      Twitch.init({clientId: CLIENT_ID}, function(error) {
-        Twitch.getStatus(function(error, status) {
-          if (status.authenticated) {
-            // we're logged in :)
-            $('.status input').val('Logged in! Allowed scope: ' + status.scope);
-            // Show the data for logged-in users
-            $('.authenticated').removeClass('hidden');
-          } else {
-            $('.status input').val('Not Logged in! Better connect with Twitch!');
-            // Show the twitch connect button
-            $('.authenticate').removeClass('hidden');
-          }
-        });
+      Twitch.init({clientId: CLIENT_ID}, function(error, status) {
+        if (status.authenticated) {
+          // we're logged in :)
+          $('.status input').val('Logged in! Allowed scope: ' + status.scope);
+          // Show the data for logged-in users
+          $('.authenticated').removeClass('hidden');
+        } else {
+          $('.status input').val('Not Logged in! Better connect with Twitch!');
+          // Show the twitch connect button
+          $('.authenticate').removeClass('hidden');
+        }
       });
 
 
