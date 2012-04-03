@@ -33,6 +33,14 @@
         });
       })
 
+      $('#logout button').click(function() {
+        Twitch.logout();
+
+        // Reload page and reset url hash. You shouldn't
+        // need to do this.
+        window.location = window.location.pathname
+      })
+
       $('#get-name button').click(function() {
         Twitch.api({method: 'user'}, function(error, user) {
           $('#get-name input').val(user.display_name);
@@ -65,6 +73,10 @@
 
     <h2 class="authenticated hidden">Authenticated</h2>
     <div class="authenticated hidden">
+      <div id="logout">
+        <button>Log Out</button>
+      </div>
+
       <div id="get-name">
         <button>Get TwitchTV Name</button>
         <input readonly="readonly" size="50" value="Unknown"/>
